@@ -67,7 +67,6 @@ def edit1(a, b):
 KNOWN_THR = {"web": 0.9, "mobile": 0.9, "mobile_v2": 0.999}
 UNKNOWN_THR = {"web": 0.99, "mobile": 0.99, "mobile_v2": 0.9999}
 DOT_THR = {"web": 0.99, "mobile": 0.99, "mobile_v2": 0.9995}
-DOT_THR_STRICT = {"web": 0.999, "mobile": 0.999, "mobile_v2": 0.9995}
 
 
 def prepare(raw, known_thr=None, unknown_thr=None, dot_thr=None, neighbor_min=3, corr_min=20):

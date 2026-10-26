@@ -1,6 +1,6 @@
 """Постобработка OCR паспорта РФ.
 
-python postprocess.py data/test_predictions.jsonl answers.jsonl [--strict]
+python postprocess.py data/test_predictions.jsonl answers.jsonl [--no-grace]
 """
 import argparse
 import json
@@ -11,20 +11,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 from src import resources as R  # noqa: E402
-from src.pipeline import Decider  # noqa: E402
+from src.pipeline import GRACE_DAYS, Decider  # noqa: E402
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("predictions")
     ap.add_argument("answers")
-    ap.add_argument("--strict", action="store_true",
-                    help="строже к сокращениям без точки: меньше принятых, меньше риск ошибки")
+    ap.add_argument("--no-grace", action="store_true",
+                    help="считать старый паспорт недействительным и в первые 90 дней после 20 и 45 лет")
     ap.add_argument("--reasons", help="записать причины отказов в этот файл")
     args = ap.parse_args()
 
     raw = R.load(ROOT / "model/resources.json")
-    dec = Decider(R.prepare(raw, dot_thr=R.DOT_THR_STRICT if args.strict else R.DOT_THR))
+    dec = Decider(R.prepare(raw), grace_days=0 if args.no_grace else GRACE_DAYS)
 
     stats = Counter()
     reasons_out = open(args.reasons, "w", encoding="utf-8") if args.reasons else None

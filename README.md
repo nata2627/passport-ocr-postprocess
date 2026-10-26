@@ -12,14 +12,15 @@
 
 ## Запуск
 
-Python 3.9+, только стандартная библиотека, CPU. Данные задания положить в `data/` и `reference/`.
+Python 3.9+, только стандартная библиотека, CPU, без интернета. Данные задания положить в `data/` (справочник подразделений уже лежит в `reference/`).
 
 ```
 python postprocess.py data/test_predictions.jsonl answers.jsonl
-python postprocess.py data/test_predictions.jsonl answers.jsonl --strict   # меньше принятых, меньше риск
+python postprocess.py data/test_predictions.jsonl answers.jsonl --no-grace   # без 90-дневного окна после 20 и 45 лет
 python scripts/build_resources.py   # пересобрать словари по data/train_labels.jsonl
 python scripts/cv.py -v             # 5-кратная кросс-валидация на train
 python -m pytest tests
+python scripts/plots.py             # графики для отчета
 ```
 
-На test принимается 1000 документов из 2000, прогноз ошибок около 9 (подробно в отчете).
+На test принимается 1008 документов из 2000, прогноз ошибок около 8 (подробно в отчете).

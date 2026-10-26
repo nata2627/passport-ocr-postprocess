@@ -1,40 +1,42 @@
-<svg xmlns='http://www.w3.org/2000/svg' width='760' height='250' viewBox='0 0 760 250'>
-<rect width='760' height='250' fill='#fcfcfb'/>
+<svg xmlns='http://www.w3.org/2000/svg' width='760' height='266' viewBox='0 0 760 266'>
+<rect width='760' height='266' fill='#fcfcfb'/>
 <text x='10.0' y='24.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='15' fill='#0b0b0b' text-anchor='start' font-weight='600'>Принятые документы и ошибки среди них, кросс-валидация на train (3000)</text>
 <text x='10.0' y='56.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>Принято документов</text>
-<line x1='100.0' x2='100.0' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='100.0' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>0</text>
-<line x1='184.4' x2='184.4' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='184.4' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>500</text>
-<line x1='268.8' x2='268.8' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='268.8' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>1000</text>
-<line x1='353.1' x2='353.1' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='353.1' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>1500</text>
-<text x='90.0' y='100.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>обычный</text>
-<rect x='100' y='82' width='247.1' height='26' rx='4' fill='#2a78d6'/>
-<text x='353.1' y='100.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>1464</text>
-<text x='90.0' y='152.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>--strict</text>
-<rect x='100' y='134' width='232.9' height='26' rx='4' fill='#2a78d6'/>
-<text x='338.9' y='152.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>1380</text>
-<text x='450.0' y='56.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>Ошибок среди принятых</text>
-<line x1='520.0' x2='520.0' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='520.0' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>0</text>
-<line x1='583.3' x2='583.3' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='583.3' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>5</text>
-<line x1='646.7' x2='646.7' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='646.7' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>10</text>
-<line x1='710.0' x2='710.0' y1='64' y2='180' stroke='#e4e3df'/>
-<text x='710.0' y='196.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>15</text>
-<text x='510.0' y='100.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>обычный</text>
-<rect x='520' y='82' width='38.0' height='26' rx='3' fill='#eb6834'/>
-<rect x='560.0' y='82' width='124.7' height='26' rx='3' fill='#eb6834' fill-opacity='0.35'/>
-<text x='690.7' y='100.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>3 + 10</text>
-<text x='510.0' y='152.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>--strict</text>
-<rect x='520' y='134' width='12.7' height='26' rx='3' fill='#eb6834'/>
-<rect x='534.7' y='134' width='124.7' height='26' rx='3' fill='#eb6834' fill-opacity='0.35'/>
-<text x='665.3' y='152.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>1 + 10</text>
-<rect x='450' y='216' width='12' height='12' rx='2' fill='#eb6834'/>
-<text x='468.0' y='226.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='normal'>промахи решения</text>
-<rect x='590' y='216' width='12' height='12' rx='2' fill='#eb6834' fill-opacity='0.35'/>
-<text x='608.0' y='226.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='normal'>шум разметки в ФИО</text>
+<line x1='150.0' x2='150.0' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='150.0' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>0</text>
+<line x1='221.9' x2='221.9' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='221.9' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>500</text>
+<line x1='293.8' x2='293.8' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='293.8' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>1000</text>
+<line x1='365.6' x2='365.6' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='365.6' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>1500</text>
+<text x='140.0' y='97.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>без проверки пробела</text>
+<rect x='150' y='80' width='211.6' height='24' rx='4' fill='#2a78d6'/>
+<text x='367.6' y='97.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>1472</text>
+<text x='140.0' y='139.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>итог</text>
+<rect x='150' y='122' width='211.3' height='24' rx='4' fill='#2a78d6'/>
+<text x='367.3' y='139.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>1470</text>
+<text x='140.0' y='181.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='end' font-weight='normal'>--no-grace</text>
+<rect x='150' y='164' width='210.2' height='24' rx='4' fill='#2a78d6'/>
+<text x='366.2' y='181.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>1462</text>
+<text x='500.0' y='56.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>Ошибок среди принятых</text>
+<line x1='500.0' x2='500.0' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='500.0' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>0</text>
+<line x1='566.7' x2='566.7' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='566.7' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>5</text>
+<line x1='633.3' x2='633.3' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='633.3' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>10</text>
+<line x1='700.0' x2='700.0' y1='64' y2='202' stroke='#e4e3df'/>
+<text x='700.0' y='218.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='normal'>15</text>
+<rect x='500' y='80' width='26.7' height='24' rx='3' fill='#eb6834'/>
+<rect x='528.7' y='80' width='144.7' height='24' rx='3' fill='#eb6834' fill-opacity='0.35'/>
+<text x='679.3' y='97.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>2 + 11</text>
+<rect x='500.0' y='122' width='146.7' height='24' rx='3' fill='#eb6834' fill-opacity='0.35'/>
+<text x='652.7' y='139.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>0 + 11</text>
+<rect x='500.0' y='164' width='146.7' height='24' rx='3' fill='#eb6834' fill-opacity='0.35'/>
+<text x='652.7' y='181.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='600'>0 + 11</text>
+<rect x='500' y='232' width='12' height='12' rx='2' fill='#eb6834'/>
+<text x='518.0' y='242.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='normal'>промахи решения</text>
+<rect x='640' y='232' width='12' height='12' rx='2' fill='#eb6834' fill-opacity='0.35'/>
+<text x='658.0' y='242.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='normal'>шум разметки</text>
 </svg>

@@ -4,7 +4,6 @@
 import contextlib
 import difflib
 import io
-import json
 import math
 import sys
 from collections import defaultdict
@@ -14,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 import cv  # noqa: E402
+from src import pipeline as PL  # noqa: E402
 from src.pipeline import FIELDS, NAME_FIELDS, viz_text  # noqa: E402
 
 SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
@@ -63,8 +63,8 @@ def calibration():
 
 
 def plot_calibration(st, path):
-    W, H = 720, 360
-    left, right, top, bottom = 70, 20, 64, 300
+    W, H = 720, 260
+    left, right, top, bottom = 70, 20, 60, 204
     lo, hi = -2.5, 2  # логарифм доли ошибок в процентах: от 0.003% до 100%
     y = lambda pct: bottom - (math.log10(max(pct, 10 ** lo)) - lo) / (hi - lo) * (bottom - top)
     out = [f"<svg xmlns='http://www.w3.org/2000/svg' width='{W}' height='{H}' viewBox='0 0 {W} {H}'>",
@@ -101,57 +101,70 @@ def plot_calibration(st, path):
     path.write_text("\n".join(out), encoding="utf-8")
 
 
+# аул Джамбичи в Адыгее существует, в разметке он записан как ДЖАМБИУИ (проверено вручную)
+PLACE_NOISE = {"tr_01665"}
+
+
 def tradeoff():
     res = {}
-    for name, strict in [("обычный", False), ("--strict", True)]:
+    thr = PL.AFTER_DOT_THR
+    for name, no_grace, after in [("без проверки пробела", False, 0.0), ("итог", False, thr),
+                                  ("--no-grace", True, thr)]:
+        PL.AFTER_DOT_THR = after
         with contextlib.redirect_stdout(io.StringIO()):
-            acc, good, bad = cv.run(seed=0, strict=strict)
-        noise = sum(1 for e in cv.run.errors if set(e[2]) <= set(NAME_FIELDS) and e[4])
+            acc, good, bad = cv.run(seed=0, no_grace=no_grace)
+        PL.AFTER_DOT_THR = thr
+        # ошибки только в ФИО при совпавших визуальной зоне и MRZ считаем шумом разметки
+        noise = sum(1 for e in cv.run.errors
+                    if e[4] and (set(e[2]) <= set(NAME_FIELDS) or e[0] in PLACE_NOISE))
         res[name] = (acc, bad - noise, noise)
     return res
 
 
 def plot_tradeoff(res, path):
-    W, H = 760, 250
+    rows = len(res)
+    W, H = 760, 140 + rows * 42
     out = [f"<svg xmlns='http://www.w3.org/2000/svg' width='{W}' height='{H}' viewBox='0 0 {W} {H}'>",
            f"<rect width='{W}' height='{H}' fill='{SURFACE}'/>",
            text(10, 24, "Принятые документы и ошибки среди них, кросс-валидация на train (3000)", 15, INK, weight="600")]
     # левая панель: принято
-    px, pw, top = 100, 270, 70
+    px, pw, top = 150, 230, 70
     out.append(text(10, 56, "Принято документов", 12, INK, weight="600"))
     xmax = 1600
     for v in (0, 500, 1000, 1500):
         xx = px + v / xmax * pw
-        out.append(f"<line x1='{xx:.1f}' x2='{xx:.1f}' y1='{top - 6}' y2='{top + 110}' stroke='{GRID}'/>")
-        out.append(text(xx, top + 126, str(v), 11, INK2, "middle"))
+        out.append(f"<line x1='{xx:.1f}' x2='{xx:.1f}' y1='{top - 6}' y2='{top + rows * 42 + 6}' stroke='{GRID}'/>")
+        out.append(text(xx, top + rows * 42 + 22, str(v), 11, INK2, "middle"))
     for i, (name, (acc, real, noise)) in enumerate(res.items()):
-        yy = top + 12 + i * 52
-        out.append(text(px - 10, yy + 18, name, 12, INK, "end"))
+        yy = top + 10 + i * 42
+        out.append(text(px - 10, yy + 17, name, 12, INK, "end"))
         w = acc / xmax * pw
-        out.append(f"<rect x='{px}' y='{yy}' width='{w:.1f}' height='26' rx='4' fill='{SERIES['web']}'/>")
-        out.append(text(px + w + 6, yy + 18, str(acc), 12, INK, weight="600"))
+        out.append(f"<rect x='{px}' y='{yy}' width='{w:.1f}' height='24' rx='4' fill='{SERIES['web']}'/>")
+        out.append(text(px + w + 6, yy + 17, str(acc), 12, INK, weight="600"))
     # правая панель: ошибки, стопка из промахов и шума разметки
-    qx, qw = 520, 190
-    out.append(text(qx - 70, 56, "Ошибок среди принятых", 12, INK, weight="600"))
+    # строки правой панели те же, что слева, подписи не повторяем
+    qx, qw = 500, 200
+    out.append(text(qx, 56, "Ошибок среди принятых", 12, INK, weight="600"))
     emax = 15
     for v in (0, 5, 10, 15):
         xx = qx + v / emax * qw
-        out.append(f"<line x1='{xx:.1f}' x2='{xx:.1f}' y1='{top - 6}' y2='{top + 110}' stroke='{GRID}'/>")
-        out.append(text(xx, top + 126, str(v), 11, INK2, "middle"))
+        out.append(f"<line x1='{xx:.1f}' x2='{xx:.1f}' y1='{top - 6}' y2='{top + rows * 42 + 6}' stroke='{GRID}'/>")
+        out.append(text(xx, top + rows * 42 + 22, str(v), 11, INK2, "middle"))
     for i, (name, (acc, real, noise)) in enumerate(res.items()):
-        yy = top + 12 + i * 52
-        out.append(text(qx - 10, yy + 18, name, 12, INK, "end"))
+        yy = top + 10 + i * 42
         w1 = real / emax * qw
         w2 = noise / emax * qw
-        out.append(f"<rect x='{qx}' y='{yy}' width='{w1:.1f}' height='26' rx='3' fill='{SERIES['mobile']}'/>")
-        out.append(f"<rect x='{qx + w1 + 2:.1f}' y='{yy}' width='{max(w2 - 2, 0):.1f}' height='26' rx='3' "
+        gap = 2 if real else 0
+        if real:
+            out.append(f"<rect x='{qx}' y='{yy}' width='{w1:.1f}' height='24' rx='3' fill='{SERIES['mobile']}'/>")
+        out.append(f"<rect x='{qx + w1 + gap:.1f}' y='{yy}' width='{w2 - gap:.1f}' height='24' rx='3' "
                    f"fill='{SERIES['mobile']}' fill-opacity='0.35'/>")
-        out.append(text(qx + w1 + w2 + 6, yy + 18, f"{real} + {noise}", 12, INK, weight="600"))
+        out.append(text(qx + w1 + w2 + 6, yy + 17, f"{real} + {noise}", 12, INK, weight="600"))
     ly = H - 24
-    out.append(f"<rect x='{qx - 70}' y='{ly - 10}' width='12' height='12' rx='2' fill='{SERIES['mobile']}'/>")
-    out.append(text(qx - 52, ly, "промахи решения", 12, INK))
-    out.append(f"<rect x='{qx + 70}' y='{ly - 10}' width='12' height='12' rx='2' fill='{SERIES['mobile']}' fill-opacity='0.35'/>")
-    out.append(text(qx + 88, ly, "шум разметки в ФИО", 12, INK))
+    out.append(f"<rect x='{qx}' y='{ly - 10}' width='12' height='12' rx='2' fill='{SERIES['mobile']}'/>")
+    out.append(text(qx + 18, ly, "промахи решения", 12, INK))
+    out.append(f"<rect x='{qx + 140}' y='{ly - 10}' width='12' height='12' rx='2' fill='{SERIES['mobile']}' fill-opacity='0.35'/>")
+    out.append(text(qx + 158, ly, "шум разметки", 12, INK))
     out.append("</svg>")
     path.write_text("\n".join(out), encoding="utf-8")
     return res

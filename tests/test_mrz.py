@@ -53,5 +53,17 @@ def test_passport_valid():
     birth = date(2008, 1, 1)
     assert passport_valid(birth, date(2022, 2, 1))       # 20 лет еще нет
     assert not passport_valid(birth, date(2026, 12, 1))  # выдан позже 01.10.2026
-    assert not passport_valid(date(2006, 9, 1), date(2020, 9, 15))  # 20 лет, паспорт не заменен
     assert passport_valid(date(2006, 9, 1), date(2026, 9, 10))
+    assert not passport_valid(date(2012, 11, 1), date(2026, 9, 1))  # выдан до 14 лет
+
+
+def test_passport_grace_window():
+    # 20 лет исполнилось 01.07.2026, старый паспорт действует еще 90 дней, до 29.09.2026
+    birth, old = date(2006, 7, 1), date(2020, 7, 15)
+    assert passport_valid(birth, old, ref=date(2026, 9, 29))
+    assert not passport_valid(birth, old, ref=date(2026, 9, 30))
+    assert passport_valid(date(2006, 9, 1), date(2020, 9, 15))  # 30 дней после 20 лет
+    assert not passport_valid(date(2006, 9, 1), date(2020, 9, 15), grace_days=0)
+    assert not passport_valid(date(2006, 6, 1), date(2020, 9, 15))  # 122 дня, окно прошло
+    # паспорт, выданный в 14 лет, к 45 годам давно недействителен
+    assert not passport_valid(date(1981, 9, 1), date(1995, 10, 1))

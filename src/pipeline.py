@@ -11,6 +11,8 @@ FIELDS = ["Last_name_ru", "First_name_ru", "Middle_name_ru", "Sex_ru", "Birth_da
 NAME_FIELDS = ["Last_name_ru", "First_name_ru", "Middle_name_ru"]
 TEXT_FIELDS = ["Birth_place_ru", "Issue_organization_ru"]
 REF_DATE = date(2026, 10, 1)
+GRACE_DAYS = 90
+AFTER_DOT_THR = 0.9  # уверенность двух символов после сокращения, которое бывает и без точки
 
 DATE_RE = re.compile(r"\d{2}\.\d{2}\.\d{4}")
 
@@ -36,16 +38,22 @@ def add_years(d, n):
         return d.replace(year=d.year + n, day=28)
 
 
-def passport_valid(birth, issue, ref=REF_DATE):
+def passport_valid(birth, issue, ref=REF_DATE, grace_days=GRACE_DAYS):
     """Паспорт действителен, если выдан не раньше последнего пройденного рубежа 14, 20 или 45 лет.
-    Старый паспорт в первые 90 дней после 20 и 45 лет тоже считаем недействительным:
-    случай спорный, а ошибочный accept дороже лишнего reject."""
+    По п. 24 Положения о паспорте после 20 и 45 лет старый паспорт действует до замены,
+    но не более 90 календарных дней. grace_days=0 отключает это окно."""
     if birth is None or issue is None or issue > ref or issue < birth:
         return False
     passed = [m for m in (14, 20, 45) if add_years(birth, m) <= ref]
     if not passed:
         return False
-    return issue >= add_years(birth, max(passed))
+    last = max(passed)
+    if issue >= add_years(birth, last):
+        return True
+    if last == 14:
+        return False
+    prev = add_years(birth, 14 if last == 20 else 20)
+    return issue >= prev and (ref - add_years(birth, last)).days <= grace_days
 
 
 class Field:
@@ -76,8 +84,9 @@ def geometry_ok(v):
 
 
 class Decider:
-    def __init__(self, resources):
+    def __init__(self, resources, grace_days=GRACE_DAYS):
         self.r = resources
+        self.grace_days = grace_days
 
     # ---------- поля, продублированные в MRZ ----------
     def mrz_fields(self, p, m, out):
@@ -243,8 +252,10 @@ class Decider:
             if dot == "add":
                 # модель потеряла точку после сокращения, в разметке оно всегда с точкой
                 tok = tok + "."
-            elif dot == "reject" or (dot == "ambiguous" and tc[-1] < self.r["dot_thr"].get(src, 0.99)):
-                # потерянная точка роняет уверенность в предыдущей букве
+            elif dot == "reject" or (dot == "ambiguous" and (
+                    tc[-1] < self.r["dot_thr"].get(src, 0.99)
+                    or min(conf[m.end():m.end() + 2] or [1.0]) < AFTER_DOT_THR)):
+                # потерянная точка роняет уверенность в предыдущей букве или в пробеле после слова
                 out[f] = Field(text, False, f"dot:{tok}")
                 return
             if known(f, tok):
@@ -320,7 +331,7 @@ class Decider:
         birth = parse_date(out["Birth_date"].value) if out["Birth_date"].ok else None
         issue = parse_date(out["Issue_date"].value) if out["Issue_date"].ok else None
         reasons = [f"{f}:{out[f].reason}" for f in FIELDS if not out[f].ok]
-        if not reasons and not passport_valid(birth, issue):
+        if not reasons and not passport_valid(birth, issue, grace_days=self.grace_days):
             reasons.append("invalid_passport")
         accept = not reasons
         return accept, {f: (out[f].value or "") for f in FIELDS}, reasons
