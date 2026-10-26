@@ -1,0 +1,6 @@
+data/
+TASK.md
+evaluate.py
+__pycache__/
+.pytest_cache/
+.DS_Store
